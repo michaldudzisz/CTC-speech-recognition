@@ -80,7 +80,7 @@ class HTKFeat_read(object):
         # Get coefficients for compressed data
         if self.parmKind & _C:
             self.dtype = 'h'
-            self.veclen = self.sampSize / 2
+            self.veclen = int(self.sampSize / 2)
             if self.parmKind & 0x3f == IREFC:
                 self.A = 32767
                 self.B = 0
@@ -117,7 +117,7 @@ class HTKFeat_read(object):
         data = numpy.fromfile(self.fh, self.dtype)
         if self.parmKind & _K: # Remove and ignore checksum
             data = data[:-1]
-        data = data.reshape(len(data)/self.veclen, self.veclen)
+        data = data.reshape(int(len(data)/self.veclen), self.veclen)
         if self.swap:
             data = data.byteswap()
         # Uncompress data to floats if required

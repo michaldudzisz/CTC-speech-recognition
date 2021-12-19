@@ -5,8 +5,8 @@ import h5py
 import gc
 
 eps = 1e-8
-stat_file = "stat"
-mlf_file ="ref61.mlf"
+stat_file = "./preprocessing/mvstats/stat"
+mlf_file ="./preprocessing/ref61.mlf"
 mapping_file = 'hmmlist'
 
 chunk_seq = 200
@@ -85,7 +85,7 @@ def create_mlf_dict(mlf):
          line = line.strip()
          if len(line) < 1: continue
          if line[0] == '"':     # a new utterance
-              feat_filename = line.strip('"*/')[:-4] + '.fea'
+              feat_filename = line.strip('"*/').replace('/', '_')[:-4] + '.mfcc'
               mlf_dict[feat_filename] = []
          elif line[0].isdigit():
             start, end, state = line.split()[:3]     # start, end frame index
@@ -143,6 +143,7 @@ def proc_seq(mlf_dict, feat_list, out_folder, skip_frames = 5):
          if len(line) < 1: continue
 
          filename_key = line.split('/')[-1]
+         print("filenamekey: ", filename_key)
          label = mlf_dict[filename_key]
 
          io_src = htk_io.fopen(line)
@@ -184,6 +185,7 @@ def proc_seq(mlf_dict, feat_list, out_folder, skip_frames = 5):
 
 
 if __name__ == '__main__':
-   mlf_dict = create_mlf_dict(mlf_file) 
-   proc_seq(mlf_dict, 'train_fea.scp', 'train_ctc')
-   proc_seq(mlf_dict, 'cv_fea.scp', 'cv_ctc')
+   mlf_dict = create_mlf_dict(mlf_file)
+   proc_seq(mlf_dict, './preprocessing/train_features_files.scp', 'own_train_ctc')
+   proc_seq(mlf_dict, './preprocessing/test_features_files.scp', 'own_test_ctc')
+   #proc_seq(mlf_dict, 'cv_fea.scp', 'cv_ctc')

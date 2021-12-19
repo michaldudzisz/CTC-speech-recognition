@@ -1,3 +1,6 @@
 __pycache__/
 
+.idea/
 preprocessing/features/
+/own_train_ctc/
+/own_test_ctc/

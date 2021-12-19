@@ -20,7 +20,7 @@ from ctc_decode import Decoder
 gpu_dtype = torch.cuda.FloatTensor
 
 
-train_dir_base = 'train_ctc'
+train_dir_base = 'own_train_ctc'
 val_dir_base = 'cv_ctc'
 
 train_files = glob.glob(train_dir_base + '/' + '*.h5')
