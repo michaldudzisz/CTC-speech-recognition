@@ -21,7 +21,7 @@ gpu_dtype = torch.cuda.FloatTensor
 
 
 train_dir_base = 'own_train_ctc'
-val_dir_base = 'cv_ctc'
+val_dir_base = 'own_test_ctc'
 
 train_files = glob.glob(train_dir_base + '/' + '*.h5')
 val_files = glob.glob(val_dir_base + '/' + '*.h5')
@@ -96,9 +96,9 @@ def get_loader(chunk_list, mode):
 
   dset = MyDataset()
   if mode == 'train':
-      loader = DataLoader(dset, batch_size = 4, shuffle = True, collate_fn = _collate_fn, num_workers = 10, pin_memory = False)
+      loader = DataLoader(dset, batch_size = 4, shuffle = True, collate_fn = _collate_fn, num_workers = 8, pin_memory = False)
   elif mode == 'test':
-      loader = DataLoader(dset, batch_size = 4, shuffle = False, collate_fn = _collate_fn, num_workers = 10, pin_memory = False)
+      loader = DataLoader(dset, batch_size = 4, shuffle = False, collate_fn = _collate_fn, num_workers = 8, pin_memory = False)
   else:
       raise Exception('mode can only be train or test')
 
@@ -125,8 +125,6 @@ def train_one_epoch(model, loss_fn, optimizer, print_every = 10):
              input_sizes = Variable(input_sizes, requires_grad = False)
              
              inputs = nn.utils.rnn.pack_padded_sequence(inputs, input_sizes_list, batch_first=True)
-             
-       
              out = model(inputs, input_sizes_list)
      
              loss = loss_fn(out, targets, input_sizes, target_sizes)     # ctc loss
@@ -167,6 +165,10 @@ def check_accuracy(model):
            probs = probs.data.cpu()
            total_num_errs +=  decoder.greedy_decoder(probs, input_sizes_list, targets, target_sizes)
            total_num_tokens += sum(target_sizes)
+#  train_ctc.py:162: UserWarning: volatile was removed and now has no effect. Use `with torch.no_grad():` instead.
+#  inputs = Variable(inputs, volatile = True, requires_grad=False).type(gpu_dtype)
+#  /home/michal/Documents/CTC-speech-recognition/set_model_ctc.py:94: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+#  return torch.stack([F.log_softmax(x[i]) for i in range(T_max)], 0)
        loader_val.dataset.data_files.clear()
        del loader_val
        gc.collect()
@@ -269,10 +271,10 @@ def train_epochs(model, loss_fn, init_lr, model_dir):
 
 
 if __name__ == '__main__':
-   model = set_model_ctc.Layered_RNN(rnn_input_size = 40, nb_layers = layers, rnn_hidden_size = hidden_size, bidirectional = True if num_dirs==2 else False, batch_norm = True, num_classes = 61) #the model will add 1 to the num_classes for the blank label automatically
+   model = set_model_ctc.Layered_RNN(rnn_input_size = 25, nb_layers = layers, rnn_hidden_size = hidden_size, bidirectional = True if num_dirs==2 else False, batch_norm = True, num_classes = 61) #the model will add 1 to the num_classes for the blank label automatically
    model = model.type(gpu_dtype)
    loss_fn = CTCLoss()
    train_epochs(model, loss_fn,  1e-3, 'weights_ctc')
 
-
+# rnn_input_size = 25 was 40
 

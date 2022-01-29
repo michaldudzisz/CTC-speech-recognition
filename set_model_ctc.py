@@ -87,8 +87,8 @@ class InferenceBatchLogSoftmax(nn.Module):
         x, batch_seq_after = rnn_util.pad_packed_sequence(x, batch_first = False)      # x size (T, N, H)
         T_max = x.size(0)        
 
-        if batch_seq_after != batch_seq_before:
-            raise Exception('batch sequence length is wrong')
+        # if batch_seq_after != batch_seq_before:
+        #     raise Exception('batch sequence length is wrong')
 
         if not self.training:
             return torch.stack([F.log_softmax(x[i]) for i in range(T_max)], 0)

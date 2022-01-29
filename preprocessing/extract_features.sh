@@ -42,7 +42,7 @@ do
 done < "$test_audios"
 
 
-export HCONFIG=~/projects/CTC-speech-recognition/preprocessing/htk_config/main_hconfig
+export HCONFIG=~/Documents/CTC-speech-recognition/preprocessing/htk_config/main_hconfig
 mkdir $dir/features
 HCopy -T 1 -C "$dir/htk_config/config" -S "$train_mapping_file"
 HCopy -T 1 -C "$dir/htk_config/config" -S "$test_mapping_file"
