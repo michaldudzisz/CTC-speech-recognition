@@ -150,4 +150,4 @@ def gen_decoded(feat_list, model_path):
 
 
 if __name__ == '__main__':
-    gen_decoded(feat_list = 'core_fea.scp', model_path = 'weights_ctc/best_model_cv75.0799539465268.pkl')
+    gen_decoded(feat_list = 'core_fea.scp', model_path = '../models/epoch9_lr0.001_cvtensor(74.5483).pkl')

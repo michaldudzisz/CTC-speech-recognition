@@ -80,7 +80,7 @@ class Decoder(object):
 
    def _convert_to_char(self, digit_seq_i, int_to_char):
       if digit_seq_i:
-         return [int_to_char[d] for d in digit_seq_i]
+         return [int_to_char[d.item()] for d in digit_seq_i]
       else:
          return []
 

@@ -188,5 +188,4 @@ if __name__ == '__main__':
    mlf_dict = create_mlf_dict(mlf_file)
    proc_seq(mlf_dict, './preprocessing/train_features_files.scp', 'own_train_ctc')
    proc_seq(mlf_dict, './preprocessing/test_features_files.scp', 'own_test_ctc')
-   proc_seq()
    #proc_seq(mlf_dict, 'cv_fea.scp', 'cv_ctc')

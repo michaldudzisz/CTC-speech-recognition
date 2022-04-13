@@ -23,6 +23,8 @@ if test -d "$target_features_path"; then rm -r $target_features_path; fi
 if test -f "$train_features"; then rm $train_features; fi
 if test -f "$test_features"; then rm $test_features; fi
 
+# TODO 10% zbioru uczącego zróbmy na cv
+
 while IFS= read -r line
 do
     directory_path=$(dirname "$line")
@@ -47,7 +49,7 @@ mkdir $dir/features
 HCopy -T 1 -C "$dir/htk_config/config" -S "$train_mapping_file"
 HCopy -T 1 -C "$dir/htk_config/config" -S "$test_mapping_file"
 
-# in case sth was wrong with htk parameter: main_hconfig <- SOURCEFORMAT = WAV
+# in case sth is wrong with htk parameter: main_hconfig <- SOURCEFORMAT = WAV
 
 if test -d "$mvstats_dir"; then rm -r $mstats_dir; fi
 mkdir $mvstats_dir
