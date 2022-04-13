@@ -5,3 +5,4 @@ preprocessing/features/
 /own_train_ctc/
 /own_test_ctc/
 /weights_ctc
+/result.mlf
