@@ -96,7 +96,7 @@ def get_loader(chunk_list, mode):
 
   dset = MyDataset()
   if mode == 'train':
-      loader = DataLoader(dset, batch_size = 4, shuffle = True, collate_fn = _collate_fn, num_workers = 8, pin_memory = False)
+      loader = DataLoader(dset, batch_size = 4, shuffle = True, collate_fn = _collate_fn, num_workers = 8, pin_memory = False) # wychodzi mi, że jedno t to 4 wypowiedz, to ta sama wartość co batch size
   elif mode == 'test':
       loader = DataLoader(dset, batch_size = 4, shuffle = False, collate_fn = _collate_fn, num_workers = 8, pin_memory = False)
   else:
@@ -132,7 +132,12 @@ def train_one_epoch(model, loss_fn, optimizer, print_every = 10):
 
              if (t + 1) % print_every == 0:
                  print('t = %d, loss = %.4f' % (t + 1, loss.data[0]))
-             #if (t + 1 ) % 50 == 0:  check_accuracy(model)
+            #  if (t + 1 ) % 50 == 0:  
+            #      acc = check_accuracy(model)
+            #      f = open("demofile3.txt", "a")
+            #      f.write('%.2f\n' %(acc ,))
+            #      f.close()
+            #      model.train()
              optimizer.zero_grad()
              loss.backward()
 

@@ -1,0 +1,4 @@
+[
+  "test_all/word_spotting/distance_test.py::test_should_compute_ratio",
+  "test_all/word_spotting/dict/wordmapper_test.py::test_should_map_word_to_phones"
+]
