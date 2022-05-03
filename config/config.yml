@@ -1,0 +1,3 @@
+dataset: {path: /home/michal/Documents/timit/timit}
+trained-models: {path: /home/michal/CTC-SPEECH-RECOGNITION/weights_ctc/}
+training: {max-epochs: 4}

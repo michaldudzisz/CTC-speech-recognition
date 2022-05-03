@@ -17,10 +17,13 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow {background: '#faf9f5';}</string>
+   <string notr="true">QMainWindow {background: '#ffffff';}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
+   <property name="styleSheet">
+    <string notr="true">`</string>
+   </property>
+   <widget class="QTabWidget" name="tabs">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -32,7 +35,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="trainingTab">
      <attribute name="title">
       <string>Model training</string>
      </attribute>
@@ -54,7 +57,7 @@
        <string>Train model</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="trainingFrame">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -82,17 +85,17 @@
         <string>1. Select path to TIMIT database</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_2">
+      <widget class="QLabel" name="datasetPathLabel">
        <property name="geometry">
         <rect>
          <x>120</x>
          <y>50</y>
-         <width>221</width>
+         <width>371</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>/home/michal/Documents/TIMIT</string>
+        <string/>
        </property>
       </widget>
       <widget class="QLabel" name="label_3">
@@ -108,7 +111,7 @@
         <string>2. Extract features</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="extractFeaturesButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -147,7 +150,7 @@
         <string>train</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="datasetPathButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -160,7 +163,7 @@
         <string>select</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_6">
+      <widget class="QPushButton" name="trainedModelsPathButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -186,17 +189,17 @@
         <string>Select directory where models will be saved</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_4">
+      <widget class="QLabel" name="trainedModelsPathLabel">
        <property name="geometry">
         <rect>
          <x>130</x>
          <y>210</y>
-         <width>231</width>
+         <width>361</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>/home/michal/Documents/models</string>
+        <string/>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox">
@@ -220,12 +223,12 @@
         <rect>
          <x>30</x>
          <y>360</y>
-         <width>251</width>
+         <width>111</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>current epoch:               3</string>
+        <string>current epoch:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_12">
@@ -233,12 +236,12 @@
         <rect>
          <x>30</x>
          <y>380</y>
-         <width>251</width>
+         <width>121</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>current sample:             120</string>
+        <string>current sample: </string>
        </property>
       </widget>
       <widget class="QLabel" name="label_13">
@@ -246,12 +249,12 @@
         <rect>
          <x>30</x>
          <y>400</y>
-         <width>221</width>
+         <width>131</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>current loss:                  84.22</string>
+        <string>current loss: </string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_9">
@@ -306,7 +309,7 @@
         <number>24</number>
        </property>
       </widget>
-      <widget class="QSlider" name="horizontalSlider">
+      <widget class="QSlider" name="maxEpochsSlider">
        <property name="geometry">
         <rect>
          <x>140</x>
@@ -314,6 +317,9 @@
          <width>160</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
        </property>
        <property name="maximum">
         <number>20</number>
@@ -336,15 +342,15 @@
         <rect>
          <x>30</x>
          <y>296</y>
-         <width>101</width>
+         <width>81</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>Max epochs:  8</string>
+        <string>Max epochs: </string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_38">
+      <widget class="QLabel" name="featuresPathLabel">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -354,7 +360,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>features saved to /home/michal/Documents/own_train_ctc</string>
+        <string/>
        </property>
       </widget>
       <widget class="QLabel" name="label_39">
@@ -388,12 +394,77 @@
         <rect>
          <x>30</x>
          <y>420</y>
-         <width>211</width>
+         <width>131</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
-        <string>last epoch accuracy:     57.22%</string>
+        <string>last epoch accuracy:  </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="maxEpochsLabel">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>296</y>
+         <width>21</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="currentEpochLabel">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>360</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="currentSampleLabel">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>380</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lastEpochAccuracyLabel">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>420</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="currentLossLabel">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>400</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
        </property>
       </widget>
      </widget>
@@ -415,7 +486,7 @@
        <string>Test model using test data</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="testingFrame">
       <property name="geometry">
        <rect>
         <x>540</x>

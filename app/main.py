@@ -2,13 +2,10 @@ import sys
 import os
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QLineEdit
 
+from model_training.TrainFrame import TrainFrame
 
 class MainWindow(QMainWindow):
 
@@ -20,6 +17,7 @@ class MainWindow(QMainWindow):
     def setup(self):
         self.setupState()
         self.loadUi()
+        self.initialize_children()
         self.connectActions()
     
     def setupState(self):
@@ -27,6 +25,9 @@ class MainWindow(QMainWindow):
 
     def loadUi(self):
         self.ui = uic.loadUi(os.path.dirname(os.path.realpath(__file__)) + '/views/main_window.ui', self)
+
+    def initialize_children(self):
+        self.train_frame = TrainFrame(ui = self.ui)
 
     def connectActions(self):        
         self.ui.selectAudioFileButton.clicked.connect(self.selectFile)

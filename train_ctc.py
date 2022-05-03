@@ -108,7 +108,7 @@ def get_loader(chunk_list, mode):
 
 
 
-def train_one_epoch(model, loss_fn, optimizer, print_every = 10):
+def train_one_epoch(model, loss_fn, optimizer, print_every = 10, progres_notifier=None):
     data_list = sample(train_files, train_num_chunks)
     model.train()
     t = 0
@@ -132,6 +132,11 @@ def train_one_epoch(model, loss_fn, optimizer, print_every = 10):
 
              if (t + 1) % print_every == 0:
                  print('t = %d, loss = %.4f' % (t + 1, loss.data[0]))
+                 if progres_notifier != None:
+                    progres_notifier.current_sample = batch_size * t
+                    progres_notifier.current_loss = loss
+                    progres_notifier.notify()
+
             #  if (t + 1 ) % 50 == 0:  
             #      acc = check_accuracy(model)
             #      f = open("demofile3.txt", "a")
@@ -191,7 +196,7 @@ def adjust_learning_rate(optimizer, decay):
 
 
 
-def train_epochs(model, loss_fn, init_lr, model_dir):
+def train_epochs(model, loss_fn, init_lr, model_dir, progress_notifier = None):
    if os.path.exists(model_dir):
       shutil.rmtree(model_dir)
    os.makedirs(model_dir)
@@ -221,7 +226,7 @@ def train_epochs(model, loss_fn, init_lr, model_dir):
         learning_rate *= halfing_factor
         adjust_learning_rate(optimizer, halfing_factor)     # decay learning rate
 
-     train_one_epoch(model, loss_fn, optimizer)      # train one epoch
+     train_one_epoch(model, loss_fn, optimizer, progress_notifier=progress_notifier)      # train one epoch
      acc = check_accuracy(model)        # check accuracy
      model_path_accept = model_dir + '/epoch' + str(count) + '_lr' + str(learning_rate) + '_cv' + str(acc) + '.pkl'
      model_path_reject = model_dir + '/epoch' + str(count) + '_lr' + str(learning_rate) + '_cv' + str(acc) + '_rejected.pkl'
@@ -274,12 +279,14 @@ def train_epochs(model, loss_fn, init_lr, model_dir):
 
 
 
-
-if __name__ == '__main__':
+def train_main_fun(progress_notifier = None):
    model = set_model_ctc.Layered_RNN(rnn_input_size = 25, nb_layers = layers, rnn_hidden_size = hidden_size, bidirectional = True if num_dirs==2 else False, batch_norm = True, num_classes = 61) #the model will add 1 to the num_classes for the blank label automatically
    model = model.type(gpu_dtype)
    loss_fn = CTCLoss()
-   train_epochs(model, loss_fn,  1e-3, 'weights_ctc')
+   train_epochs(model, loss_fn,  1e-3, 'weights_ctc', progress_notifier=progress_notifier)
 
 # rnn_input_size = 25 was 40
+
+if __name__ == '__main__':
+   train_main_fun()
 
