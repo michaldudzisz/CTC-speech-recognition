@@ -1,3 +1,5 @@
-dataset: {path: /home/michal/Documents/timit/timit}
+dataset: {path: /home/michal/Documents/timit}
+test:
+  model: {path: /home/michal/Documents/models/weights_ctc-29-01-2022/epoch9_lr0.001_cvtensor(74.5483).pkl}
 trained-models: {path: /home/michal/CTC-SPEECH-RECOGNITION/weights_ctc/}
-training: {max-epochs: 4}
+training: {max-epochs: 10}

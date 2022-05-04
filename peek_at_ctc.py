@@ -20,7 +20,7 @@ layers = 4
 hidden_size = 256
 num_dirs = 2
 decoder_type = 'Greedy'      # Beam or Beam_LM or Greedy
-out_mlf = 'result.mlf'     # output mlf file, containing the decoded strings
+out_mlf = 'result61.mlf'     # output mlf file, containing the decoded strings
 
 
 def create_mapping(map_file):
@@ -115,6 +115,9 @@ def gen_decoded(feat_list, model_path):
                 fw.write('.\n')
                 print(' '.join(decoded))
 
+
+def main_test_fun(feat_list, model_path):
+    gen_decoded(feat_list=feat_list, model_path=model_path)
 
 if __name__ == '__main__':
     gen_decoded(

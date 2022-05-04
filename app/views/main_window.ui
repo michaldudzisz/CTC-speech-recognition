@@ -137,7 +137,7 @@
         <string>3. Train</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="trainButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -212,7 +212,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>save training logs to</string>
+        <string>save training logs</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -257,33 +257,7 @@
         <string>current loss: </string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>250</y>
-         <width>80</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>select</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_6">
-       <property name="geometry">
-        <rect>
-         <x>270</x>
-         <y>250</y>
-         <width>221</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>/home/michal/Documents/logs</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_11">
+      <widget class="QPushButton" name="stopTrainingButton">
        <property name="geometry">
         <rect>
          <x>200</x>
@@ -514,7 +488,7 @@
         <string>1. Select model</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="testedModelPathButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -540,7 +514,7 @@
         <string>2. Test</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="testButton">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -553,11 +527,11 @@
         <string>test</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_3">
+      <widget class="QLabel" name="selectedOrNotLabel">
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>90</y>
+         <y>80</y>
          <width>161</width>
          <height>20</height>
         </rect>
@@ -608,7 +582,7 @@
         <string>Beam search decoding</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_5">
+      <widget class="QLabel" name="testedModelLabel">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -626,12 +600,25 @@
         <rect>
          <x>20</x>
          <y>290</y>
-         <width>151</width>
+         <width>101</width>
          <height>16</height>
         </rect>
        </property>
        <property name="text">
         <string>Model accuracy:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_38">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>290</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>68 %</string>
        </property>
       </widget>
      </widget>

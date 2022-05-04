@@ -1,12 +1,11 @@
 import os
 import yaml
-from threading import Thread
 from PyQt5.QtWidgets import QFrame
 from PyQt5.QtWidgets import QFileDialog
 
-from pkg_resources import run_script
-from static import CONFIG
-from .. import train_main_fun
+from app.static import CONFIG
+from app.utils.scripting import run_script
+from train_ctc import TrainingThread
 
 CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -15,8 +14,7 @@ FEATURES_PATH = CURRENT_PATH + '/../../preprocessing/features'
 EXTRACT_SCRIPT = CURRENT_PATH + '/../../preprocessing/test.sh'
 EXCTRACTING_LOGS = CURRENT_PATH + '/../../logs/extracting.log'
 
-TRAIN_SCRIPT = CURRENT_PATH + '/../../preprocessing/test.sh'
-TRAINING_LOGS = CURRENT_PATH + '/../../logs/extracting.log'
+TRAINING_LOGS = CURRENT_PATH + '/../../logs/training.log'
 
 class TrainFrame(QFrame):
 
@@ -54,14 +52,18 @@ class TrainFrame(QFrame):
         self.ui.trainedModelsPathButton.clicked.connect(self.select_trained_models_path)
         self.ui.maxEpochsSlider.valueChanged.connect(self.set_current_max_epochs)
         self.ui.maxEpochsSlider.sliderReleased.connect(self.save_max_epochs)
+        self.ui.trainButton.clicked.connect(self.train)
+        self.ui.stopTrainingButton.clicked.connect(self.stop_training)
 
     def select_dataset_path(self):
-        self.dataset_path, _ = QFileDialog.getExistingDirectory()
+        self.dataset_path = QFileDialog.getExistingDirectory()
         self.ui.datasetPathLabel.setText(os.path.basename(self.dataset_path))
+        self.save_to_config({'dataset': {'path': self.dataset_path}})
 
     def select_trained_models_path(self):
-        self.trained_models_path, _ = QFileDialog.getExistingDirectory()
+        self.trained_models_path = QFileDialog.getExistingDirectory()
         self.ui.trainedModelsPathLabel.setText(os.path.basename(self.trained_models_path))
+        self.save_to_config({'trained-models': {'path': self.trained_models_path}})
 
     def extract_features(self):
         run_script(script=EXTRACT_SCRIPT, logs=EXCTRACTING_LOGS)
@@ -72,15 +74,11 @@ class TrainFrame(QFrame):
         self.ui.maxEpochsLabel.setText(str(self.max_epochs))
 
     def save_max_epochs(self):
-        with open(CONFIG) as config: 
-            data = yaml.safe_load(config)
-        data['training']['max-epochs'] = self.max_epochs
-        with open(CONFIG, 'w') as config:
-            yaml.dump(data, config)
+        self.save_to_config({'training': {'max-epochs': self.max_epochs}})
         
     def train(self):
         progress = TrainingProgressNotifier(self)
-        self.training_thread = Thread(target=train_main_fun, args=[progress])
+        self.training_thread = TrainingThread(progress_notifier=progress)
         self.training_thread.start()
     
     def get_notified(self, progress):
@@ -88,13 +86,25 @@ class TrainFrame(QFrame):
         self.current_sample = progress.current_sample
         self.current_loss = progress.current_loss
         self.last_epoch_accuracy = progress.last_epoch_accuracy
-        self.ui.currentEpochLabel = self.current_epoch
-        self.ui.currentSampleLabel = self.current_sample
-        self.ui.currentLossLabel = self.current_loss
-        self.ui.lastEpochAccuracyLabel = self.last_epoch_accuracy
-
-
+        self.ui.currentEpochLabel.setText(str(self.current_epoch))
+        self.ui.currentSampleLabel.setText(str(self.current_sample))
+        self.ui.currentLossLabel.setText("{:.2f}".format(self.current_loss))
+        self.ui.lastEpochAccuracyLabel.setText(str(self.last_epoch_accuracy))
     
+    def stop_training(self):
+        if not hasattr(self, 'training_thread'): return
+        self.training_thread.stop()
+        self.training_thread.join()
+    
+    def save_to_config(self, value):
+        with open(CONFIG) as config: 
+            data = yaml.safe_load(config)
+        data.update(value)
+        with open(CONFIG, 'w') as config:
+            yaml.dump(data, config)
+
+
+
 class TrainingProgressNotifier:
 
     def __init__(self, parentFrame) -> None:

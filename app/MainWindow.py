@@ -1,11 +1,11 @@
 import sys
 import os
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QFileDialog
+from app.model_training.TestFrame import TestFrame
 
-from model_training.TrainFrame import TrainFrame
+from app.model_training.TrainFrame import TrainFrame
 
 class MainWindow(QMainWindow):
 
@@ -28,6 +28,7 @@ class MainWindow(QMainWindow):
 
     def initialize_children(self):
         self.train_frame = TrainFrame(ui = self.ui)
+        self.test_frame = TestFrame(ui = self.ui)
 
     def connectActions(self):        
         self.ui.selectAudioFileButton.clicked.connect(self.selectFile)
@@ -44,11 +45,4 @@ class MainWindow(QMainWindow):
 
     def closeApp(self):
         super().close()
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    app.exec_()
 

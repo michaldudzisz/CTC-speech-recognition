@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-def run_sricpt(script, logs = None):
+def run_script(script, logs = None):
     if logs == None:
         process = subprocess.Popen(script, stdout=subprocess.PIPE)
         for line in iter(process.stdout.readline, b''):
