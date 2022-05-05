@@ -37,14 +37,12 @@ class TestFrame(QFrame):
         self.ui.testButton.clicked.connect(self.test)
 
     def select_model_path(self):
-        dialog = QFileDialog()
-        dialog.setNameFilter("*.pkl")
-        self.model_path, _ = dialog.getOpenFileName()
+        self.model_path, _ = QFileDialog.getOpenFileName(filter='*.pkl')
         self.update_selected_model_label()
         self.save_to_config({'test': {'model': {'path': self.model_path}}})
 
     def update_selected_model_label(self):
-        self.ui.testedModelLabel.setText(self.model_path if self.model_path != '' else 'No model selected')
+        self.ui.testedModelLabel.setText(os.path.basename(self.model_path) if self.model_path != '' else 'No model selected')
 
     def test(self):
         main_test_fun(feat_list='/home/michal/Documents/CTC-speech-recognition/preprocessing/test_features_files.scp', model_path=self.model_path)

@@ -660,7 +660,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="selectAudioFileButton">
+      <widget class="QPushButton" name="audioFileButton">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -686,12 +686,12 @@
         <string>process</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel">
+      <widget class="QLabel" name="audioFileLabel">
        <property name="geometry">
         <rect>
          <x>100</x>
          <y>150</y>
-         <width>151</width>
+         <width>131</width>
          <height>20</height>
         </rect>
        </property>
@@ -772,7 +772,7 @@
         <rect>
          <x>10</x>
          <y>80</y>
-         <width>161</width>
+         <width>231</width>
          <height>20</height>
         </rect>
        </property>
@@ -804,6 +804,19 @@
        </property>
        <property name="text">
         <string>select</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="extractionLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>221</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>

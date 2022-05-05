@@ -116,7 +116,9 @@ def gen_decoded(feat_list, model_path):
                 print(' '.join(decoded))
 
 
-def main_test_fun(feat_list, model_path):
+def main_test_fun(feat_list, model_path, output_path = None, stat_path = None):
+    if output_path != None: global out_mlf; out_mlf = output_path
+    if stat_path != None: global stat_file; stat_file = stat_path
     gen_decoded(feat_list=feat_list, model_path=model_path)
 
 if __name__ == '__main__':

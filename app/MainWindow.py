@@ -35,17 +35,7 @@ class MainWindow(QMainWindow):
         self.audio_frame = AudioFrame(ui = self.ui)
 
     def connectActions(self):        
-        self.ui.selectAudioFileButton.clicked.connect(self.selectFile)
-        self.ui.processButton.clicked.connect(self.processAudioFile)
         self.ui.closeButton.clicked.connect(self.closeApp)
-
-    def selectFile(self):
-        self.filename, _ = QFileDialog.getOpenFileName()
-        self.ui.selectedFilenameLabel.setText(os.path.basename(self.filename))
-    
-    def processAudioFile(self):
-        if self.filename is None: return
-        print('processing file ' + self.filename)
 
     def closeApp(self):
         super().close()

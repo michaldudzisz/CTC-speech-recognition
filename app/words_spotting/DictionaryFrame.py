@@ -26,7 +26,7 @@ class DictionaryFrame(QFrame):
         with open(CONFIG) as config:
             data = yaml.safe_load(config)
         try:
-            words = data['word-spotting']['dictionary']
+            words = data['word-spotting-dictionary']
         except:
             pass
         self.check_for_correctness(words)
@@ -73,7 +73,7 @@ class DictionaryFrame(QFrame):
     
     def save_words_to_config(self):
         words_to_store = self.dictionary
-        storage_dict = {'word-spotting': {'dictionary': words_to_store}}
+        storage_dict = {'word-spotting-dictionary': words_to_store}
         self.save_to_config(storage_dict)
 
     def save_to_config(self, value):
