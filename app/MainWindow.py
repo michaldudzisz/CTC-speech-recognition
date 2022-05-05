@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QFileDialog
 from app.model_training.TestFrame import TestFrame
 
 from app.model_training.TrainFrame import TrainFrame
+from app.words_spotting.AudioFrame import AudioFrame
+from app.words_spotting.DictionaryFrame import DictionaryFrame
 
 class MainWindow(QMainWindow):
 
@@ -29,6 +31,8 @@ class MainWindow(QMainWindow):
     def initialize_children(self):
         self.train_frame = TrainFrame(ui = self.ui)
         self.test_frame = TestFrame(ui = self.ui)
+        self.dictionary_frame = DictionaryFrame(ui = self.ui)
+        self.audio_frame = AudioFrame(ui = self.ui)
 
     def connectActions(self):        
         self.ui.selectAudioFileButton.clicked.connect(self.selectFile)

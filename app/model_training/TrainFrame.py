@@ -31,6 +31,7 @@ class TrainFrame(QFrame):
         self.dataset_path = None
         self.features_path = FEATURES_PATH
         self.trained_models_path = None
+        self.max_epochs = 10
 
         with open(CONFIG) as config:
             data = yaml.safe_load(config)

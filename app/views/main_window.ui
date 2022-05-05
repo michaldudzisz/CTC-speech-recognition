@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="trainingTab">
      <attribute name="title">
@@ -527,19 +527,6 @@
         <string>test</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedOrNotLabel">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>80</y>
-         <width>161</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>no model selected</string>
-       </property>
-      </widget>
       <widget class="QRadioButton" name="radioButton">
        <property name="geometry">
         <rect>
@@ -592,7 +579,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>no file selected</string>
+        <string/>
        </property>
       </widget>
       <widget class="QLabel" name="label_43">
@@ -780,7 +767,7 @@
         <string>Greedy decoding</string>
        </property>
       </widget>
-      <widget class="QLabel" name="selectedFilenameLabel_7">
+      <widget class="QLabel" name="spottingModelLabel">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -806,7 +793,7 @@
         <string>1. Select model</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_10">
+      <widget class="QPushButton" name="spottingModelButton">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -848,30 +835,20 @@
         <string>Edit dictionary</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit">
-       <property name="geometry">
-        <rect>
-         <x>21</x>
-         <y>40</y>
-         <width>131</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_7">
+      <widget class="QPushButton" name="addWordButton">
        <property name="geometry">
         <rect>
          <x>160</x>
          <y>40</y>
          <width>61</width>
-         <height>31</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
         <string>add</string>
        </property>
       </widget>
-      <widget class="QListWidget" name="listWidget">
+      <widget class="QListWidget" name="dictionaryList">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -880,93 +857,8 @@
          <height>241</height>
         </rect>
        </property>
-       <item>
-        <property name="text">
-         <string>help</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>journalist</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>car</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>boy</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>wall</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>please</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>cat</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>advertisement</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>wallpaper</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>focus</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>table</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>make</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>camera</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>withdraw</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>sense</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>another</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>silly</string>
-        </property>
-       </item>
       </widget>
-      <widget class="QPushButton" name="pushButton_8">
+      <widget class="QPushButton" name="removeWordButton">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -977,6 +869,25 @@
        </property>
        <property name="text">
         <string>remove</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="wordEdit">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>131</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="maxLength">
+        <number>10</number>
+       </property>
+       <property name="placeholderText">
+        <string>write a word</string>
        </property>
       </widget>
      </widget>

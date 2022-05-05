@@ -9,14 +9,23 @@ class WordMapper:
 
     def __init__(self, word_mapping_file_path):
         self.mapping_file = word_mapping_file_path
-
+    
+    def is_word_available(self, word):
+        mapping_file = open(self.mapping_file, "r")
+        while True:
+            line = mapping_file.readline()
+            if line == '': return False
+            if VALID_LETTER.match(line[0]):
+                words = line.split()
+                if words[0] == word: return True
+        
     def get_phones(self, word):
         phones = []
         mapping_file = open(self.mapping_file, "r")
 
         while True:
             line = mapping_file.readline()
-            if line[0] == '': return
+            if line == '': return phones
 
             if VALID_LETTER.match(line[0]):
                 words = line.split()
