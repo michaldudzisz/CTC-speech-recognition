@@ -8,7 +8,7 @@ from app.static import CONFIG
 from app.utils.scripting import run_script
 from peek_at_ctc import main_test_fun
 from word_spotting.dict.WordMapper import WordMapper
-from word_spotting.distance import distance_ratio
+from word_spotting.distance39 import distance_ratio39
 
 WORD_MAPPING_FILE = '/home/michal/Documents/timit/timit/TIMITDIC.TXT'
 
@@ -67,11 +67,6 @@ class AudioFrame(QFrame):
         self.extraction_label_finished()
     
     def extract_audio_features(self):
-        # tu chce miec zrobiony pliczek:
-        # 1) spotting.scp:  <- ten jest dla HCopy
-        #   /home/michal/Documents/timit/timit/data/TRAIN/DR8/MCXM0/SX361.WAV.wav /home/michal/Documents/CTC-speech-recognition/preprocessing/features/MCXM0_SX361.mfcc
-        # 2) spotting_feature.scp: <- ten jest do mean i var
-        #   /home/michal/Documents/CTC-speech-recognition/preprocessing/features/MRDS0_SI537.mfcc
         self.copy_audio_to_tmp()
         self.create_for_hcopy()
         self.create_for_hcomp()
@@ -131,11 +126,17 @@ class AudioFrame(QFrame):
         ratios = {}
         for entry in self.dictionary.items():
             word, phones = entry
-            ratios[word] = distance_ratio(model_phones, phones)
+            ratios[word] = distance_ratio39(model_phones, phones)
         return ratios
 
     def dispaly_ratios(self, ratios):
         print(ratios)
+        self.ui.rankingList.clear()
+        sorted_ratios = sorted(ratios.items(), key=lambda item: -item[1])
+        for ratio_tuple in sorted_ratios:
+            word, ratio = ratio_tuple
+            label = "{:.2f}".format(ratio) + f" {word}"
+            self.ui.rankingList.addItem(label)
 
     def load_words(self):
         words = []

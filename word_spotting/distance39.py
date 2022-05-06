@@ -1,15 +1,18 @@
+import os
 from typing import Sequence
 from typing import Tuple
 from Levenshtein import distance
 
-
-MAPPING_FILE = "/home/michal/Documents/CTC-speech-recognition/map_list"
+CURRENT_PATH = os.path.dirname(os.path.realpath(__file__))
+MAPPING_FILE = CURRENT_PATH + "/../map_list"
+PHONES_MERGING_FILE = CURRENT_PATH + "/../timit2_39.led"
 BOUNDING_FACTOR = 2
 
 
-def distance_ratio(model_phones, word_phones) -> float:
-    distance = get_minimal_distance(model_phones, word_phones)
-    ratio = 1 -  (distance / + len(word_phones))
+def distance_ratio39(model39_phones, word61_phones) -> float:
+    word39_phones = map_61_to_39_phones(word61_phones)
+    distance = get_minimal_distance(model39_phones, word39_phones)
+    ratio = 1 -  (distance / + len(word39_phones))
     return ratio
 
 
@@ -54,4 +57,26 @@ def calculate_window_bounds(model_len, word_len) -> Tuple[int, int]:
     lower_bound = min(int(word_len / BOUNDING_FACTOR - 1), 1)
     upper_bound = min(word_len * BOUNDING_FACTOR + 1, model_len)
     return lower_bound, upper_bound
+
+def map_61_to_39_phones(phones61):
+    mapping = load_dict()
+    phones39 = []
+    for phone61 in phones61:
+        if phone61 in mapping:
+            phones39.append(mapping[phone61])
+        else:
+            phones39.append(phone61)
+    return phones39
+
+def load_dict():
+    mapping_file = open(PHONES_MERGING_FILE)
+    lines = mapping_file.readlines()
+    mapping = {}
+    for line in lines:
+        words = line.split()
+        try:
+            mapping[words[2]] = words[1]
+        except:
+            pass
+    return mapping
 

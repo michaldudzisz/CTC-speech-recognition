@@ -1,4 +1,4 @@
-from word_spotting.distance import distance_ratio
+from word_spotting.distance61 import distance_ratio61
 
 def test_should_compute_ratio():
     # given
@@ -8,5 +8,5 @@ def test_should_compute_ratio():
     ratio = 1 - (distance / (len(word_phones))) # 0.4
 
     # expect
-    assert distance_ratio(model_phones, word_phones) == ratio
+    assert distance_ratio61(model_phones, word_phones) == ratio
 
