@@ -11,6 +11,9 @@
 # do
 #   echo "$line"
 # done < "$input"
+path=$1
+train_path=$path/data/TRAIN
+test_path=$path/data/TEST
 
-find ~/Documents/timit/timit/data/TRAIN/ -type f -name "*.wav" > train_audio_files.scp
-find ~/Documents/timit/timit/data/TEST/ -type f -name "*.wav" > test_audio_files.scp
+find $train_path -type f -name "*.wav" > train_audio_files.scp
+find $test_path -type f -name "*.wav" > test_audio_files.scp

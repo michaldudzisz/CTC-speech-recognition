@@ -22,8 +22,9 @@ out_mlf = 'result.mlf'     # output mlf file, containing the decoded strings
 
 if decoder_type == 'Beam' or decoder_type == 'Beam_LM':
    try:
-     import pytorch_ctc
-     from pytorch_ctc import Scorer, KenLMScorer
+   #   import pytorch_ctc
+   #   from pytorch_ctc import Scorer, KenLMScorer
+      from ctcdecode import CTCBeamDecoder
    except ImportError:
      print("warn: pytorch_ctc unavailable. Only greedy decoding is supported.")
 elif decoder_type != 'Greedy':
@@ -35,12 +36,12 @@ if decoder_type == 'Beam_LM':
   # See map_list for the correspondence between TIMIT phone and these symbols
   labels = '_123456789abcde~-hij,.|{ofg?!+u}[x]@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   dict_path = 'symbol_list'  # This is the vocabulary. In TIMIT, the word vocabulary is the same as the phones, also the same as the symbols (excluding the blank lable)
-  kenlm_path = 'bigram.ken'   # This is the kenlm converted from the ARPA bigram using build_binary provided by kenlm.
+  kenlm_path = 'bigram-phones.ken' # 'bigram.ken'   # This is the kenlm converted from the ARPA bigram using build_binary provided by kenlm.
   trie_path  = 'trie'         # output trie will be saved here
   lm_weight = 2.1
   lm_beta1 = 1
   lm_beta2 = 1
-  pytorch_ctc.generate_lm_trie(dict_path, kenlm_path, trie_path, labels, 0, -1)
+  # pytorch_ctc.generate_lm_trie(dict_path, kenlm_path, trie_path, labels, 0, -1)
 
 
 
@@ -111,12 +112,29 @@ def gen_decoded(feat_list, model_path):
       labels_true = create_mapping(mapping_file)
       # need to use the fake symbols here for consistency with the trie
       scorer = KenLMScorer(labels_symbol, kenlm_path, trie_path, blank_index = 0, space_index = -1)
-      scorer.set_lm_weight(lm_weight)
-      scorer.set_word_weight(lm_beta1)
-      scorer.set_valid_word_weight(lm_beta2)
+      # scorer.set_lm_weight(lm_weight)
+      # scorer.set_word_weight(lm_beta1)
+      # scorer.set_valid_word_weight(lm_beta2)
       # need to use the true timit label to convert the decoded position indexes back to phone labels
-      decoder = ctc_decode.BeamDecoder_test(labels_true, scorer, top_paths = 1, beam_width = 200, output = 'char', space_idx = -1)    # setup beam decoder with lm
-   
+      ecoder = ctc_decode.BeamDecoder_test(labels_true, scorer, top_paths = 1, beam_width = 200, output = 'char', space_idx = -1)    # setup beam decoder with lm
+
+      # o tu moje:
+      decoder = ctc_decode.BeamDecoder_test(
+         labels=labels_true, 
+         model_path=kenlm_path,
+         alpha=lm_weight,
+         beta=lm_beta1,
+         top_paths=1, 
+         beam_width=200, 
+         output='char', 
+         space_idx=-1,
+         blank_id=0
+      )    # setup beam decoder with lm
+
+
+
+
+
    m, v = read_mv(stat_file)
    if m is None or v is None:
       raise Exception("mean or variance vector does not exist")
@@ -141,7 +159,11 @@ def gen_decoded(feat_list, model_path):
            x = nn.utils.rnn.pack_padded_sequence(x, input_sizes_list, batch_first=True)         
            probs = model(x, input_sizes_list)
            probs = probs.data.cpu()
+
+
            decoded = decoder.decode(probs, input_sizes_list)[0]
+
+
            for word in decoded:
              fw.write(word + '\n')
            fw.write('.\n')

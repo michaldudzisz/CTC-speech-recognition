@@ -17,6 +17,8 @@ import gc
 from ctc_decode import Decoder
 from threading import Thread
 from threading import Event
+import pickle
+import json
 
 
 gpu_dtype = torch.cuda.FloatTensor
@@ -131,7 +133,7 @@ class TrainingThread(Thread):
       data_list = sample(train_files, train_num_chunks)
       model.train()
       t = 0
-      
+      done = False
       for i in range(0, train_num_chunks, load_chunks_every):
             chunk_list = data_list[i: i + load_chunks_every]
             loader_train = self.get_loader(chunk_list, 'train')
@@ -143,6 +145,21 @@ class TrainingThread(Thread):
                targets = Variable(targets, requires_grad=False)
                input_sizes = Variable(input_sizes, requires_grad = False)
                
+               if not done:
+                  file = open("input_sizes_list.json", 'w')
+                  #a = input_sizes_list.cpu().numpy()
+                  a = input_sizes_list
+                  #print(np.array2string(inputs.cpu().numpy()))
+                  #file.write(inputs.cpu().numpy().tostring())
+                  # latin-1 maps byte n to unicode code point n
+                  # serialized_as_json = json.dumps(a.tolist())
+                  serialized_as_json = json.dumps(a)
+                  file.write(serialized_as_json)
+                  #deserialized_from_json = pickle.loads(json.loads(serialized_as_json).encode('latin-1'))
+                  #np.save(file, inputs.cpu().numpy())
+                  done = True
+                  file.close()
+
                inputs = nn.utils.rnn.pack_padded_sequence(inputs, input_sizes_list, batch_first=True)
                out = model(inputs, input_sizes_list)
       
@@ -255,6 +272,13 @@ class TrainingThread(Thread):
          acc = self.check_accuracy(model)        # check accuracy
          model_path_accept = model_dir + '/epoch' + str(count) + '_lr' + str(learning_rate) + '_cv' + str(acc) + '.pkl'
          model_path_reject = model_dir + '/epoch' + str(count) + '_lr' + str(learning_rate) + '_cv' + str(acc) + '_rejected.pkl'
+
+
+         progress_notifier.current_epoch = count + 1
+         progress_notifier.last_epoch_accuracy = str(acc)[7:11]
+         progress_notifier.notify()
+
+
 
          if acc > (acc_best + start_halfing_inc):    # accept model
             #if half_flag: half_flag = False

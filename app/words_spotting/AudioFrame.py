@@ -29,6 +29,16 @@ class AudioFrame(QFrame):
         super(QFrame, self).__init__()
         self.ui = ui
         self.phones_provider = WordMapper(WORD_MAPPING_FILE)
+        self.test_box_elements = [
+            self.ui.label_27,
+            self.ui.label_28,
+            self.ui.label_29,
+            self.ui.label_30,
+            self.ui.spottingUseLanguageModelCheckbox,
+            self.ui.spottingBWSpin,
+            self.ui.spottingAlphaSpin,
+            self.ui.spottingBetaSpin
+        ]
         self.setup()
 
     def setup(self):
@@ -43,15 +53,36 @@ class AudioFrame(QFrame):
         try:
             self.model_path = data['word-spotting-model']
             self.audio_file = data['word-spotting-audio']
+            self.use_language_model = data['spotting-use-language-model']
+            self.beam_width = data['spotting-beam-width']
+            self.alpha = data['spotting-alpha']
+            self.beta = data['spotting-beta']
+            self.beam_decoding_enabled = data['spotting-beam-decoding-endabled']
         except:
             pass
         self.update_selected_model_label()
         self.update_audio_file_label()
 
+        self.ui.spottingUseLanguageModelCheckbox.setChecked(self.use_language_model)
+        self.ui.spottingBWSpin.setValue(self.beam_width)
+        self.ui.spottingAlphaSpin.setValue(self.alpha)
+        self.ui.spottingBetaSpin.setValue(self.beta)
+        self.ui.spottingGreedyRadio.setChecked(not self.beam_decoding_enabled)
+        self.ui.spottingBeamRadio.setChecked(self.beam_decoding_enabled)
+
+        for element in self.test_box_elements:
+            element.setEnabled(self.beam_decoding_enabled)
+
     def connect_actions(self):
         self.ui.spottingModelButton.clicked.connect(self.select_model_path)
         self.ui.audioFileButton.clicked.connect(self.load_audio_file)
         self.ui.processButton.clicked.connect(self.process)
+        self.ui.spottingUseLanguageModelCheckbox.stateChanged.connect(self.set_use_language_model)
+        self.ui.spottingBWSpin.valueChanged.connect(self.set_beam_width)
+        self.ui.spottingAlphaSpin.valueChanged.connect(self.set_alpha)
+        self.ui.spottingBetaSpin.valueChanged.connect(self.set_beta)
+        self.ui.spottingGreedyRadio.toggled.connect(self.greedy_toggled)
+        
 
     def select_model_path(self):
         self.model_path, _ = QFileDialog.getOpenFileName(filter='*.pkl')
@@ -101,12 +132,39 @@ class AudioFrame(QFrame):
     def extraction_label_finished(self):
         self.ui.extractionLabel.setText('Features succesfully extracted!')
 
+    def set_use_language_model(self):
+        self.use_language_model = self.ui.spottingUseLanguageModelCheckbox.isChecked()
+        self.save_to_config({'spotting-use-language-model' : self.use_language_model})
+    
+    def set_beam_width(self):
+        self.beam_width = self.ui.spottingBWSpin.value()
+        self.save_to_config({'spotting-beam-width' : self.beam_width})
+
+    def set_alpha(self):
+        self.alpha = self.ui.spottingAlphaSpin.value()
+        self.save_to_config({'spotting-alpha' : self.alpha})
+
+    def set_beta(self):
+        self.beta = self.ui.spottingBetaSpin.value()
+        self.save_to_config({'spotting-beta' : self.beta})
+
+    def greedy_toggled(self):
+        self.beam_decoding_enabled = self.ui.spottingBeamRadio.isChecked()
+        self.save_to_config({'spotting-beam-decoding-endabled' : self.beam_decoding_enabled})
+        for element in self.test_box_elements:
+            element.setEnabled(self.beam_decoding_enabled)
+       
+
     def process(self):
         main_test_fun(
             feat_list=SPOTTING_FEATURE_SCP,
             model_path=self.model_path,
             output_path=NET_OUTPUT_RAW,
-            stat_path=STAT_PATH
+            stat_path=STAT_PATH,
+            decoderp='Beam_LM',
+            alphap=1,
+            betap=1,
+            beam_widthp=200
         )
         self.postprocess_net_result()
     

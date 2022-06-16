@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>673</height>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,8 +29,11 @@
       <x>0</x>
       <y>0</y>
       <width>851</width>
-      <height>631</height>
+      <height>661</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
     <property name="currentIndex">
      <number>1</number>
@@ -63,7 +66,7 @@
         <x>10</x>
         <y>40</y>
         <width>501</width>
-        <height>541</height>
+        <height>581</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -112,6 +115,9 @@
        </property>
       </widget>
       <widget class="QPushButton" name="extractFeaturesButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -122,6 +128,9 @@
        </property>
        <property name="text">
         <string>extract</string>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QLabel" name="label_4">
@@ -141,7 +150,7 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>330</y>
+         <y>370</y>
          <width>80</width>
          <height>23</height>
         </rect>
@@ -202,66 +211,11 @@
         <string/>
        </property>
       </widget>
-      <widget class="QCheckBox" name="checkBox">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>250</y>
-         <width>151</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>save training logs</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_11">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>360</y>
-         <width>111</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>current epoch:</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_12">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>380</y>
-         <width>121</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>current sample: </string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_13">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>400</y>
-         <width>131</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>current loss: </string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="stopTrainingButton">
        <property name="geometry">
         <rect>
-         <x>200</x>
-         <y>500</y>
+         <x>210</x>
+         <y>540</y>
          <width>91</width>
          <height>23</height>
         </rect>
@@ -270,24 +224,11 @@
         <string>stop training</string>
        </property>
       </widget>
-      <widget class="QProgressBar" name="progressBar">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>460</y>
-         <width>431</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="value">
-        <number>24</number>
-       </property>
-      </widget>
       <widget class="QSlider" name="maxEpochsSlider">
        <property name="geometry">
         <rect>
          <x>140</x>
-         <y>300</y>
+         <y>340</y>
          <width>160</width>
          <height>16</height>
         </rect>
@@ -315,7 +256,7 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>296</y>
+         <y>336</y>
          <width>81</width>
          <height>20</height>
         </rect>
@@ -341,7 +282,7 @@
        <property name="geometry">
         <rect>
          <x>140</x>
-         <y>280</y>
+         <y>320</y>
          <width>21</width>
          <height>16</height>
         </rect>
@@ -354,7 +295,7 @@
        <property name="geometry">
         <rect>
          <x>280</x>
-         <y>280</y>
+         <y>320</y>
          <width>59</width>
          <height>20</height>
         </rect>
@@ -363,24 +304,11 @@
         <string>20</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_41">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>420</y>
-         <width>131</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>last epoch accuracy:  </string>
-       </property>
-      </widget>
       <widget class="QLabel" name="maxEpochsLabel">
        <property name="geometry">
         <rect>
          <x>110</x>
-         <y>296</y>
+         <y>336</y>
          <width>21</width>
          <height>20</height>
         </rect>
@@ -389,57 +317,187 @@
         <string>6</string>
        </property>
       </widget>
-      <widget class="QLabel" name="currentEpochLabel">
+      <widget class="QLabel" name="label_24">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>360</y>
-         <width>51</width>
-         <height>16</height>
+         <x>30</x>
+         <y>280</y>
+         <width>121</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>hidden layer size:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="currentSampleLabel">
+      <widget class="QLabel" name="label_25">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>380</y>
-         <width>51</width>
-         <height>16</height>
+         <x>30</x>
+         <y>250</y>
+         <width>91</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>hidden layers:</string>
        </property>
       </widget>
-      <widget class="QLabel" name="lastEpochAccuracyLabel">
+      <widget class="QSpinBox" name="hiddenLayersSpin">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>420</y>
-         <width>51</width>
-         <height>16</height>
+         <x>150</x>
+         <y>250</y>
+         <width>61</width>
+         <height>24</height>
         </rect>
        </property>
-       <property name="text">
-        <string>0</string>
-       </property>
       </widget>
-      <widget class="QLabel" name="currentLossLabel">
+      <widget class="QSpinBox" name="hiddenLayerSizeSpin">
        <property name="geometry">
         <rect>
-         <x>180</x>
+         <x>150</x>
+         <y>280</y>
+         <width>61</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>2048</number>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_6">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
          <y>400</y>
-         <width>51</width>
-         <height>16</height>
+         <width>231</width>
+         <height>131</height>
         </rect>
        </property>
-       <property name="text">
-        <string>0</string>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
        </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="currentLossLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>80</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_12">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>60</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>current sample: </string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="currentEpochLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>40</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="currentSampleLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>60</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>current epoch:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_13">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>80</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>current loss: </string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_41">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>last epoch accuracy:  </string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lastEpochAccuracyLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>100</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_31">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Training progress</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QLabel" name="label_5">
@@ -463,10 +521,10 @@
      <widget class="QFrame" name="testingFrame">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>530</x>
         <y>40</y>
-        <width>281</width>
-        <height>361</height>
+        <width>291</width>
+        <height>491</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -517,8 +575,8 @@
       <widget class="QPushButton" name="testButton">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>240</y>
+         <x>20</x>
+         <y>430</y>
          <width>80</width>
          <height>23</height>
         </rect>
@@ -527,7 +585,10 @@
         <string>test</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QRadioButton" name="greedyRadio">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -553,10 +614,13 @@
         </rect>
        </property>
        <property name="text">
-        <string>Select decoding algorithm</string>
+        <string>Select a decoding algorithm</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QRadioButton" name="beamRadio">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -567,6 +631,9 @@
        </property>
        <property name="text">
         <string>Beam search decoding</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QLabel" name="testedModelLabel">
@@ -582,38 +649,129 @@
         <string/>
        </property>
       </widget>
-      <widget class="QLabel" name="label_43">
+      <widget class="QFrame" name="frame">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>290</y>
-         <width>101</width>
-         <height>16</height>
+         <y>230</y>
+         <width>251</width>
+         <height>171</height>
         </rect>
        </property>
-       <property name="text">
-        <string>Model accuracy:</string>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
        </property>
-      </widget>
-      <widget class="QLabel" name="label_38">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>290</y>
-         <width>31</width>
-         <height>16</height>
-        </rect>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
        </property>
-       <property name="text">
-        <string>68 %</string>
-       </property>
+       <widget class="QCheckBox" name="useLanguageModelCheckbox">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>181</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>use language model</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_21">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>alpha:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_22">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>beta:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_23">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>beam width:</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="BWSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>70</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_26">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>221</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Beam search decoding parameters</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="alphaSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>100</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="betaSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>130</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="closeButton">
       <property name="geometry">
        <rect>
-        <x>720</x>
-        <y>500</y>
+        <x>740</x>
+        <y>550</y>
         <width>80</width>
         <height>23</height>
        </rect>
@@ -642,7 +800,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Select audio file</string>
+       <string>Process audio file</string>
       </property>
      </widget>
      <widget class="QFrame" name="frame_3">
@@ -650,8 +808,8 @@
        <rect>
         <x>280</x>
         <y>50</y>
-        <width>241</width>
-        <height>411</height>
+        <width>291</width>
+        <height>531</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -677,7 +835,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>310</y>
+         <y>490</y>
          <width>80</width>
          <height>23</height>
         </rect>
@@ -725,7 +883,10 @@
         <string>3. Process</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_3">
+      <widget class="QRadioButton" name="spottingBeamRadio">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -737,8 +898,14 @@
        <property name="text">
         <string>Beam search decoding</string>
        </property>
-       <property name="checked">
+       <property name="checkable">
         <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+       <property name="autoRepeat">
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QLabel" name="label_16">
@@ -751,10 +918,10 @@
         </rect>
        </property>
        <property name="text">
-        <string>Select decoding algorithm</string>
+        <string>Select a decoding algorithm</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_4">
+      <widget class="QRadioButton" name="spottingGreedyRadio">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -772,7 +939,7 @@
         <rect>
          <x>10</x>
          <y>80</y>
-         <width>231</width>
+         <width>271</width>
          <height>20</height>
         </rect>
        </property>
@@ -819,6 +986,120 @@
         <string/>
        </property>
       </widget>
+      <widget class="QFrame" name="frame_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>300</y>
+         <width>251</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QCheckBox" name="spottingUseLanguageModelCheckbox">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>181</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>use language model</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_27">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>alpha:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_28">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>41</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>beta:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_29">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>beam width:</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spottingBWSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>70</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>2048</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_30">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>221</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Beam search decoding parameters</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="spottingAlphaSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>100</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="spottingBetaSpin">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>130</y>
+          <width>61</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
      </widget>
      <widget class="QFrame" name="frame_4">
       <property name="geometry">
@@ -826,7 +1107,7 @@
         <x>20</x>
         <y>50</y>
         <width>241</width>
-        <height>411</height>
+        <height>531</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -865,9 +1146,9 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>100</y>
+         <y>90</y>
          <width>201</width>
-         <height>241</height>
+         <height>381</height>
         </rect>
        </property>
       </widget>
@@ -875,7 +1156,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>370</y>
+         <y>490</y>
          <width>80</width>
          <height>23</height>
         </rect>
@@ -925,7 +1206,7 @@
      <widget class="QLabel" name="label_19">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>590</x>
         <y>20</y>
         <width>161</width>
         <height>21</height>
@@ -943,10 +1224,10 @@
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>540</x>
+        <x>590</x>
         <y>50</y>
         <width>241</width>
-        <height>411</height>
+        <height>531</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -959,7 +1240,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>60</y>
+         <y>20</y>
          <width>191</width>
          <height>16</height>
         </rect>
@@ -972,9 +1253,9 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>100</y>
+         <y>50</y>
          <width>201</width>
-         <height>241</height>
+         <height>421</height>
         </rect>
        </property>
       </widget>

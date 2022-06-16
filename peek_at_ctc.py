@@ -19,8 +19,39 @@ mapping_file = 'hmmlist'
 layers = 4
 hidden_size = 256
 num_dirs = 2
-decoder_type = 'Greedy'      # Beam or Beam_LM or Greedy
+
+decoder_type = 'Beam_LM' # 'Beam_LM'      # Beam or Beam_LM or Greedy
 out_mlf = 'result61.mlf'     # output mlf file, containing the decoded strings
+
+beam_width = 200
+alpha = 0.001
+beta = 1
+
+
+
+if decoder_type == 'Beam' or decoder_type == 'Beam_LM':
+   try:
+   #   import pytorch_ctc
+   #   from pytorch_ctc import Scorer, KenLMScorer
+      from ctcdecode import CTCBeamDecoder
+   except ImportError:
+     print("warn: pytorch_ctc unavailable. Only greedy decoding is supported.")
+elif decoder_type != 'Greedy':
+   raise Exception('decoder_type must be Beam, Beam_LM or Greedy')
+
+
+if decoder_type == 'Beam_LM':
+  # Timit labels phones, not letter, we have to convert the phone to single-char symbols and put them in the labels string, following the same order as the CTC outputs, including the blank label
+  # See map_list for the correspondence between TIMIT phone and these symbols
+  #labels = '_123456789abcde~-hij,.|{ofg?!+u}[x]@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  #dict_path = 'symbol_list'  # This is the vocabulary. In TIMIT, the word vocabulary is the same as the phones, also the same as the symbols (excluding the blank lable)
+  kenlm_path = 'bigram.ken' # 'bigram.ken'   # This is the kenlm converted from the ARPA bigram using build_binary provided by kenlm.
+  #trie_path  = 'trie'         # output trie will be saved here
+  lm_weight = 2.1
+  lm_beta1 = 1
+  lm_beta2 = 1
+  # pytorch_ctc.generate_lm_trie(dict_path, kenlm_path, trie_path, labels, 0, -1)
+
 
 
 def create_mapping(map_file):
@@ -78,10 +109,39 @@ def gen_decoded(feat_list, model_path):
     # Put the model in test mode (the opposite of model.train(), essentially)
     model.eval()
 
-    decoder_type == 'Greedy'
-    labels = create_mapping(mapping_file)
-    decoder = ctc_decode.GreedyDecoder_test(
-        labels, output='char', space_idx=-1)     # setup greedy decoder
+    if decoder_type == 'Greedy':
+        labels = create_mapping(mapping_file)
+        decoder = ctc_decode.GreedyDecoder_test(labels, output = 'char', space_idx = -1)     # setup greedy decoder
+    if decoder_type == 'Beam':
+        labels = create_mapping(mapping_file)
+        scorer = Scorer()
+        decoder = ctc_decode.BeamDecoder_test(labels, scorer, top_paths = 1, beam_width = 200, output = 'char', space_idx = -1)    # setup beam decoder without lm
+    if decoder_type == 'Beam_LM':
+        # labels_symbol = '_123456789abcde~-hij,.|{ofg?!+u}[x]@ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        labels_true = create_mapping(mapping_file)
+        # need to use the fake symbols here for consistency with the trie
+        # scorer = KenLMScorer(labels_symbol, kenlm_path, trie_path, blank_index = 0, space_index = -1)
+        # scorer.set_lm_weight(lm_weight)
+        # scorer.set_word_weight(lm_beta1)
+        # scorer.set_valid_word_weight(lm_beta2)
+        # need to use the true timit label to convert the decoded position indexes back to phone labels
+        # decoder = ctc_decode.BeamDecoder_test(labels_true, scorer, top_paths = 1, beam_width = 200, output = 'char', space_idx = -1)    # setup beam decoder with lm
+
+        # o tu moje:
+        decoder = ctc_decode.BeamDecoder_test(
+            labels=labels_true,
+            model_path=kenlm_path,
+            alpha=0.001,#lm_weight,
+            beta=lm_beta1,
+            beam_width=200, 
+            output='char', 
+            space_idx=-1,
+            blank_id=0
+        )    # setup beam decoder with lm
+
+
+
+
 
     m, v = read_mv(stat_file)
     if m is None or v is None:
@@ -105,20 +165,28 @@ def gen_decoded(feat_list, model_path):
                 feat_tensor = torch.from_numpy(feat_numpy).type(gpu_dtype)
                 x = Variable(feat_tensor.type(gpu_dtype), volatile=True)
                 input_sizes_list = [x.size(1)]
-                x = nn.utils.rnn.pack_padded_sequence(
-                    x, input_sizes_list, batch_first=True)
+                x = nn.utils.rnn.pack_padded_sequence(x, input_sizes_list, batch_first=True)
                 probs = model(x, input_sizes_list)
                 probs = probs.data.cpu()
-                decoded = decoder.decode(probs, input_sizes_list)[0]
+
+
+                decoded = decoder.decode(probs, input_sizes_list)[0] # Ważne
+
+
                 for word in decoded:
                     fw.write(word + '\n')
                 fw.write('.\n')
                 print(' '.join(decoded))
 
 
-def main_test_fun(feat_list, model_path, output_path = None, stat_path = None):
+def main_test_fun(feat_list, model_path, decoderp, beam_widthp, alphap, betap, output_path = None, stat_path = None):
     if output_path != None: global out_mlf; out_mlf = output_path
     if stat_path != None: global stat_file; stat_file = stat_path
+    global decoder_type; decoder_type = decoderp
+    global beam_width; beam_width = beam_widthp
+    global alpha; alpha = alphap
+    global beta; beta = betap
+
     gen_decoded(feat_list=feat_list, model_path=model_path)
 
 if __name__ == '__main__':

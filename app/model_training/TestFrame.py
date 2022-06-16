@@ -2,6 +2,7 @@ import os
 import yaml
 from PyQt5.QtWidgets import QFrame
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QMessageBox
 
 from app.static import CONFIG
 from app.utils.scripting import run_script
@@ -45,7 +46,23 @@ class TestFrame(QFrame):
         self.ui.testedModelLabel.setText(os.path.basename(self.model_path) if self.model_path != '' else 'No model selected')
 
     def test(self):
-        main_test_fun(feat_list='/home/michal/Documents/CTC-speech-recognition/preprocessing/test_features_files.scp', model_path=self.model_path)
+        if self.model_path == None or self.model_path == '':
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Model not specified")
+            msg.setInformativeText('Please set path to a tested model.')
+            msg.setWindowTitle("Error")
+            msg.exec_()
+            return
+        
+        main_test_fun(
+            feat_list='/home/michal/Documents/CTC-speech-recognition/preprocessing/test_features_files.scp', 
+            decoderp='Beam_LM',
+            alphap=1,
+            betap=1,
+            model_path=self.model_path,
+            beam_widthp=200
+        )
         run_script(ACC_SCRIPT)
         
     def save_to_config(self, value):

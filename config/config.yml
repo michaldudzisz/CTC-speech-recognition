@@ -1,7 +1,20 @@
 dataset: {path: /home/michal/Documents/timit/timit}
-test: {model: ''}
-trained-models: {path: /home/michal/Documents/test/dir2}
-training: {max-epochs: 12}
+hidden-layers-size: 256
+num-hidden-layers: 4
+spotting-alpha: 1
+spotting-beam-decoding-endabled: false
+spotting-beam-width: 200
+spotting-beta: 1
+spotting-use-language-model: true
+test:
+  model: {path: ''}
+test-alpha: 1
+test-beam-decoding-endabled: true
+test-beam-width: 200
+test-beta: 1
+test-use-language-model: true
+trained-models: {path: /home/michal/Documents/models}
+training: {max-epochs: 8}
 word-spotting-audio: /home/michal/Documents/timit/timit/data/TEST/DR1/FAKS0/SX403.WAV.wav
 word-spotting-dictionary: [her, wardrobe, consists, only, of, skirts, and, blouses]
 word-spotting-model: /home/michal/Documents/models/weights_ctc-29-01-2022/epoch9_lr0.001_cvtensor(74.5483).pkl

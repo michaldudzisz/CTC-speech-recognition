@@ -14,8 +14,9 @@ test_mapping_file="$dir/test.scp"
 mvstats_dir="$dir/mvstats"
 
 target_features_path="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/features"
-
-./$dir/find_audios.sh
+echo "xddddd"
+echo $dir
+$dir/find_audios.sh $1
 
 if test -f "$train_mapping_file"; then rm $train_mapping_file; fi
 if test -f "$test_mapping_file"; then rm $test_mapping_file; fi
