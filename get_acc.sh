@@ -2,7 +2,7 @@
 
 dir=`dirname $0`
 
-result61_file=$dir/result61-beam-no-lm.mlf # result61_file=$dir/result.mlf
+result61_file=$dir/result61.mlf # result61_file=$dir/result61-beam-no-lm.mlf # result61_file=$dir/result.mlf
 result39_file=$dir/result39.mlf
 
 

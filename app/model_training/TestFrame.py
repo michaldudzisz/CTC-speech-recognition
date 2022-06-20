@@ -3,6 +3,7 @@ import yaml
 from PyQt5.QtWidgets import QFrame
 from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtWidgets import QMessageBox
+import time
 
 from app.static import CONFIG
 from app.utils.scripting import run_script
@@ -55,15 +56,41 @@ class TestFrame(QFrame):
             msg.exec_()
             return
         
+        if not self.get_testing_params(): return
+
+        start = time.time()
         main_test_fun(
             feat_list='/home/michal/Documents/CTC-speech-recognition/preprocessing/test_features_files.scp', 
-            decoderp='Beam_LM',
-            alphap=1,
-            betap=1,
+            decoderp= 'Beam_LM' if self.beam_decoding_enabled  else 'Greedy',
+            alphap= self.test_alpha if self.test_use_language_model else 0.0,
+            betap=self.test_beta,
             model_path=self.model_path,
-            beam_widthp=200
+            beam_widthp=self.test_beam_width
         )
         run_script(ACC_SCRIPT)
+        end = time.time()
+        print('time elapsed: ' + str(end - start))
+    
+    def get_testing_params(self):
+        with open(CONFIG) as config:
+            data = yaml.safe_load(config)
+            try:
+                self.test_use_language_model = data['test-use-language-model']
+                self.test_beam_width = data['test-beam-width']
+                self.test_alpha = data['test-alpha']
+                self.test_beta = data['test-beta']
+                self.beam_decoding_enabled = data['test-beam-decoding-endabled']
+            except:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("Model not specified")
+                msg.setInformativeText('Please set path to a tested model.')
+                msg.setWindowTitle("Error")
+                msg.exec_()
+                return False
+            
+        return True
+
         
     def save_to_config(self, value):
         with open(CONFIG) as config: 

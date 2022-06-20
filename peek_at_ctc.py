@@ -102,6 +102,11 @@ def org_data(utt_feat, skip_frames=0):
 
 
 def gen_decoded(feat_list, model_path):
+
+    print('Running ' + decoder_type + ' decoding' )
+    if decoder_type == 'Beam_LM':
+        print('with params:\n\tBW=' + str(beam_width) + '\n\talpha=' + str(alpha) + '\n\tbeta=' + str(beta))
+
     model = set_model_ctc.Layered_RNN(rnn_input_size=25, nb_layers=layers, rnn_hidden_size=hidden_size,
                                       bidirectional=True if num_dirs == 2 else False, batch_norm=True, num_classes=61)
     model = model.type(gpu_dtype)
@@ -131,9 +136,9 @@ def gen_decoded(feat_list, model_path):
         decoder = ctc_decode.BeamDecoder_test(
             labels=labels_true,
             model_path=kenlm_path,
-            alpha=0.001,#lm_weight,
-            beta=lm_beta1,
-            beam_width=200, 
+            alpha=alpha, #0.001,#lm_weight,
+            beta=beta,
+            beam_width=beam_width, 
             output='char', 
             space_idx=-1,
             blank_id=0

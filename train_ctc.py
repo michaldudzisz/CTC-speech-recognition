@@ -145,20 +145,13 @@ class TrainingThread(Thread):
                targets = Variable(targets, requires_grad=False)
                input_sizes = Variable(input_sizes, requires_grad = False)
                
-               if not done:
-                  file = open("input_sizes_list.json", 'w')
-                  #a = input_sizes_list.cpu().numpy()
-                  a = input_sizes_list
-                  #print(np.array2string(inputs.cpu().numpy()))
-                  #file.write(inputs.cpu().numpy().tostring())
-                  # latin-1 maps byte n to unicode code point n
-                  # serialized_as_json = json.dumps(a.tolist())
-                  serialized_as_json = json.dumps(a)
-                  file.write(serialized_as_json)
-                  #deserialized_from_json = pickle.loads(json.loads(serialized_as_json).encode('latin-1'))
-                  #np.save(file, inputs.cpu().numpy())
-                  done = True
-                  file.close()
+               # if not done:
+               #    file = open("input_sizes_list.json", 'w')
+               #    a = input_sizes_list
+               #    serialized_as_json = json.dumps(a)
+               #    file.write(serialized_as_json)
+               #    done = True
+               #    file.close()
 
                inputs = nn.utils.rnn.pack_padded_sequence(inputs, input_sizes_list, batch_first=True)
                out = model(inputs, input_sizes_list)
@@ -261,7 +254,7 @@ class TrainingThread(Thread):
 
          if half_flag:
             learning_rate *= halfing_factor
-            self.adjust_learning_rate(self, optimizer, halfing_factor)     # decay learning rate
+            self.adjust_learning_rate(optimizer, halfing_factor)     # decay learning rate
 
          self.train_one_epoch(model, loss_fn, optimizer, progress_notifier=progress_notifier)      # train one epoch
 

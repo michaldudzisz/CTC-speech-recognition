@@ -20,6 +20,7 @@ class WordMapper:
                 if words[0] == word: return True
         
     def get_phones(self, word):
+        print('getting phones for word: ' + word)
         phones = []
         mapping_file = open(self.mapping_file, "r")
 
@@ -38,4 +39,14 @@ class WordMapper:
         
         mapping_file.close()
         return phones
+
+    def load_all_available_words_with_phones(self):
+        mapping_file = open(self.mapping_file, "r")
+        all_words = {}
+        while True:
+            line = mapping_file.readline()
+            if line == '': return all_words
+            if VALID_LETTER.match(line[0]):
+                words = line.split()
+                all_words[words[0]] = self.get_phones(words[0])
 

@@ -10,6 +10,9 @@ BOUNDING_FACTOR = 2
 
 
 def distance_ratio39(model39_phones, word61_phones) -> float:
+
+    if len(word61_phones) >= len(model39_phones): return 0
+
     word39_phones = map_61_to_39_phones(word61_phones)
     distance = get_minimal_distance(model39_phones, word39_phones)
     ratio = 1 -  (distance / + len(word39_phones))
@@ -20,6 +23,9 @@ def get_minimal_distance(model_phones, word_phones) -> int:
     model_chars = map_to_chars(model_phones)
     word_chars = map_to_chars(word_phones)
     lower_bound, upper_bound = calculate_window_bounds(len(model_chars), len(word_chars))
+
+    # print('model_phones: ' + str(model_phones))
+    # print('word_phones: ' + str(word_phones))
 
     minimal_distance = float('inf')
     for seq_len in range(upper_bound, lower_bound - 1, -1):
