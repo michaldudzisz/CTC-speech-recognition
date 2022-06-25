@@ -54,13 +54,12 @@ def load_sentence_phones(audio_filename):
     return phones[1 : -2]
 
 
-class WordRatio:
-    def __init__(self, ratio):
-        self.count = 1
-        self.average_ratio = ratio
+true_positives = [x * 0 for x in range(0, 20)]
+false_negatives = [x * 0 for x in range(0, 20)]
+false_positives = [x * 0 for x in range(0, 20)]
+true_negatives = [x * 0 for x in range(0, 20)]
 
 def run():
-    words_ratios = {}
     all_words = phones_provider.load_all_available_words_with_phones()
     file = open(CURRENT_PATH + '/../preprocessing/test_audio_files.scp')
     t = 0
@@ -73,31 +72,39 @@ def run():
         sentence_words = load_dictionary(word_transcription_filename)
         sentence_phones = load_sentence_phones(audio_filename)
 
-        words_to_be_recognized_in_this_sentence = {}
-        for word in all_words:
-            if word not in sentence_words: 
-                words_to_be_recognized_in_this_sentence[word] = all_words[word]
+        words_to_be_recognized_in_this_sentence = all_words
+        # for word in all_words:
+        #     if word not in sentence_words: 
+        #         words_to_be_recognized_in_this_sentence[word] = all_words[word]
 
         
         for word in words_to_be_recognized_in_this_sentence:
             word_ratio = distance_ratio39(model39_phones=sentence_phones, word61_phones=words_to_be_recognized_in_this_sentence[word])
-            if word in words_ratios:
-                old_count = words_ratios[word].count
-                new_count = old_count + 1
-                words_ratios[word].count = new_count
-                words_ratios[word].average_ratio = (words_ratios[word].average_ratio * old_count + word_ratio) / new_count
-            else:
-                words_ratios[word] = WordRatio(word_ratio)
+
+            k = 0
+            for treshold in [x / 100 for x in range(30, 50)]:
+                if word in sentence_words:
+                    if word_ratio >= treshold: 
+                        true_positives[k] = true_positives[k] + 1
+                    else:
+                        false_negatives[k] = false_negatives[k] + 1
+                else:
+                    if word_ratio >= treshold: 
+                        false_positives[k] = false_positives[k] + 1
+                    else:
+                        true_negatives[k] = true_negatives[k] + 1
+                k = k + 1
 
         t = t + 1
         #if t == 200: break
 
     file.close()
 
-    result_file = open(CURRENT_PATH + '/false_positives.txt', "w")
-    for word in words_ratios:
-        ratio_struct = words_ratios[word]
-        result_file.write(word + ' ' + str(ratio_struct.average_ratio) + '\n')
+    result_file = open(CURRENT_PATH + '/general_results.txt', "w")
+    result_file.write(str(true_positives) + '\n')
+    result_file.write(str(false_negatives) + '\n')
+    result_file.write(str(false_positives) + '\n')
+    result_file.write(str(true_negatives) + '\n')
     result_file.close()
 
 
