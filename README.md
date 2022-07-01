@@ -1,4 +1,8 @@
-# CTC-speech-recognition
+# Aplikacja do pracy z algorytmem CTC
+
+
+Poniżej znajduje się opis algorytmu:
+
 This is a working example of using CTC for phone recognition on TIMIT.
 CTC (connectionist temporal classification) is a sequence-to-sequence classifier, which maps an input sequence to a target sequence. In speech recognition, it predicts a sequence of labels (can be phones, or characters) from speech frames. The network typically uses bidirectional LSTM. For a detailed description of CTC, please look at this paper:
 http://www.cs.toronto.edu/~graves/icml_2006.pdf
